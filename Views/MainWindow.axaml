@@ -15,6 +15,36 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Window.Styles>
+        <Style Selector="ToggleButton PathIcon.audio-on">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector="ToggleButton:checked PathIcon.audio-on">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+        <Style Selector="ToggleButton PathIcon.audio-mute">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+        <Style Selector="ToggleButton:checked PathIcon.audio-mute">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+    </Window.Styles>
+    
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+        <TextBlock Margin="0 5">message:</TextBlock>
+        <AutoCompleteBox x:Name="MsgBox"
+                         Margin="0 5"
+                         CornerRadius="5"></AutoCompleteBox>
+        <ToggleButton x:Name="ConnectSwitch"
+                      Margin="0 5"
+                      IsChecked="False">
+            <Panel>
+                <PathIcon Classes="audio-on"
+                          Data="{StaticResource speaker_regular}" />
+                <PathIcon Classes="audio-mute"
+                          Data="{StaticResource speaker_off_regular}"/>
+            </Panel>
+        </ToggleButton>
+    </StackPanel>
 
 </Window>
