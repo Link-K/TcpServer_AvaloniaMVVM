@@ -16,33 +16,35 @@
     </Design.DataContext>
 
     <Window.Styles>
-        <Style Selector="ToggleButton PathIcon.audio-on">
+        <Style Selector="ToggleButton PathIcon.switch-on">
             <Setter Property="IsVisible" Value="False"/>
         </Style>
-        <Style Selector="ToggleButton:checked PathIcon.audio-on">
+        <Style Selector="ToggleButton:checked PathIcon.switch-on">
             <Setter Property="IsVisible" Value="True"/>
         </Style>
-        <Style Selector="ToggleButton PathIcon.audio-mute">
+        <Style Selector="ToggleButton PathIcon.switch-off">
             <Setter Property="IsVisible" Value="True"/>
         </Style>
-        <Style Selector="ToggleButton:checked PathIcon.audio-mute">
+        <Style Selector="ToggleButton:checked PathIcon.switch-off">
             <Setter Property="IsVisible" Value="False"/>
         </Style>
     </Window.Styles>
-    
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="20">
         <TextBlock Margin="0 5">message:</TextBlock>
         <AutoCompleteBox x:Name="MsgBox"
                          Margin="0 5"
-                         CornerRadius="5"></AutoCompleteBox>
+                         CornerRadius="5" />
         <ToggleButton x:Name="ConnectSwitch"
                       Margin="0 5"
-                      IsChecked="False">
+                      IsChecked="{Binding IsListening, Mode=TwoWay}">
             <Panel>
-                <PathIcon Classes="audio-on"
-                          Data="{StaticResource speaker_regular}" />
-                <PathIcon Classes="audio-mute"
-                          Data="{StaticResource speaker_off_regular}"/>
+                <PathIcon Classes="switch-on"
+                          Data="{StaticResource connect_off}" />
+                <PathIcon Classes="switch-off"
+                          Data="{StaticResource connect_on}"/>
             </Panel>
         </ToggleButton>
     </StackPanel>

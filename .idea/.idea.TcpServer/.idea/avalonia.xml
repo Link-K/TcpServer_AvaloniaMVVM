@@ -5,6 +5,7 @@
       <map>
         <entry key="App.axaml" value="TcpServer.csproj" />
         <entry key="Icons.axaml" value="TcpServer.csproj" />
+        <entry key="Styles/Icons.axaml" value="TcpServer.csproj" />
         <entry key="Views/MainWindow.axaml" value="TcpServer.csproj" />
       </map>
     </option>
