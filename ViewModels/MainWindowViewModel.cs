@@ -11,6 +11,10 @@ public partial class MainWindowViewModel : ObservableObject
 	private bool _isListening;
 	[ObservableProperty]
 	private string _message;
+	[ObservableProperty]
+	private string _ip;
+	[ObservableProperty]
+	private string _port;
 
 	private readonly ObservableCollection<string> _messages = [];
 	private const int MaxMessageCount = 100;
@@ -22,6 +26,8 @@ public partial class MainWindowViewModel : ObservableObject
 		IsListening = false;
 
 		Message = "Server stop listening";
+		Ip = "192.168.1.1";
+		Port = "8080";
 	}
 
 	private void AddMessage(string msg)
@@ -44,6 +50,6 @@ public partial class MainWindowViewModel : ObservableObject
 
 	partial void OnIsListeningChanged(bool value)
 	{
-		AddMessage(value ? "Listening" : "Stop listening");
+		AddMessage(value ? $"Listening on {Ip}:{Port}" : "Stop listening");
 	}
 }
