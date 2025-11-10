@@ -1,7 +1,5 @@
 using System;
-using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Threading;
 using TcpServer.ViewModels;
 
 namespace TcpServer.Views;
@@ -20,18 +18,9 @@ public partial class MainWindow : Window
 		{
 			throw new InvalidOperationException("DataContext must be set to an instance of MainWindowViewModel.");
 		}
-
-		// 订阅 MessageUpdated 事件
-		viewModel.MessageUpdated += OnMessageUpdated;
 	}
 
-	private void MsgBox_TextChanged(object sender, Avalonia.Controls.TextChangedEventArgs e)
-	{
-		// 滚动到最后一行
-		MsgScrollViewer.ScrollToEnd();
-	}
-
-	private void OnMessageUpdated()
+	private void MsgBox_TextChanged(object sender, TextChangedEventArgs e)
 	{
 		// 滚动到最后一行
 		MsgScrollViewer.ScrollToEnd();
