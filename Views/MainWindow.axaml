@@ -3,11 +3,13 @@
         xmlns:vm="using:TcpServer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
         x:Class="TcpServer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="TcpServer">
+        Title="TcpServer"
+        Width="800"
+        Height="450">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -33,20 +35,65 @@
     <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Margin="20">
-        <TextBlock Margin="0 5">message:</TextBlock>
-        <AutoCompleteBox x:Name="MsgBox"
-                         Margin="0 5"
-                         CornerRadius="5" />
-        <ToggleButton x:Name="ConnectSwitch"
+        <TextBlock Margin="0 5"
+                   FontSize="16"
+                   FontWeight="Black">message:</TextBlock>
+
+        <ScrollViewer x:Name="MsgScrollViewer"
+                      Width="600"
+                      Height="300"
                       Margin="0 5"
-                      IsChecked="{Binding IsListening, Mode=TwoWay}">
-            <Panel>
-                <PathIcon Classes="switch-on"
-                          Data="{StaticResource connect_off}" />
-                <PathIcon Classes="switch-off"
-                          Data="{StaticResource connect_on}"/>
-            </Panel>
-        </ToggleButton>
+                      VerticalScrollBarVisibility="Auto">
+            <TextBox x:Name="MsgBox"
+                     Text="{Binding Message, Mode=OneWay}"
+                     TextWrapping="Wrap"
+                     IsReadOnly="True"
+                     TextChanged="MsgBox_TextChanged">
+            </TextBox>
+        </ScrollViewer>
+
+        <Grid Margin="4" ColumnDefinitions="*,7*,*,3*,*">
+
+            <TextBlock Text="IP: "
+                       FontWeight="Bold"
+                       Grid.Column="0"
+                       Margin="0,0,5,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"></TextBlock>
+
+            <TextBox Text="IP address"
+                     Grid.Column="1"
+                     Margin="0,0,20,0"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Stretch"/>
+
+            <TextBlock Text="Port: "
+                       FontWeight="Bold"
+                       Grid.Column="2"
+                       Margin="0,0,5,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"></TextBlock>
+
+            <TextBox Text="Port"
+                     Grid.Column="3"
+                     Margin="0,0,30,0"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Stretch"/>
+
+            <ToggleButton x:Name="ConnectSwitch"
+                          Margin="0"
+                          Grid.Column="4"
+                          IsChecked="{Binding IsListening, Mode=TwoWay}"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center">
+                <Panel>
+                    <PathIcon Classes="switch-on"
+                              Data="{StaticResource connect_off}" />
+                    <PathIcon Classes="switch-off"
+                              Data="{StaticResource connect_on}"/>
+                </Panel>
+            </ToggleButton>
+        </Grid>
     </StackPanel>
 
 </Window>

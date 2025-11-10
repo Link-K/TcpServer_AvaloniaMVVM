@@ -1,32 +1,49 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.ObjectModel;
+using Avalonia.Controls;
 
 namespace TcpServer.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private bool isListening;
+	[ObservableProperty]
+	private bool _isListening;
+	[ObservableProperty]
+	private string _message;
 
-    [ObservableProperty]
-    private string message;
+	private readonly ObservableCollection<string> _messages = [];
+	private const int MaxMessageCount = 100;
+	public event Action? MessageUpdated;
 
-    public MainWindowViewModel()
-    {
-        // 初始化属性
-        IsListening = false;
-        Message = "";
-    }
+	public MainWindowViewModel()
+	{
+		// 初始化属性
+		IsListening = false;
 
-    partial void OnIsListeningChanged(bool value)
-    {
-        // 在这里添加你的逻辑
-        Console.WriteLine($"State changed: {value}");
-    }
+		Message = "Server stop listening";
+	}
 
-    partial void OnMessageChanged(string value)
-    {
-        // 在这里添加你的逻辑
-        Console.WriteLine($"Message changed: {value}");
-    }
+	private void AddMessage(string msg)
+	{
+		var content = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {msg}";
+		_messages.Add(content);
+
+		if (_messages.Count > MaxMessageCount)
+			_messages.RemoveAt(0);
+
+		UpdateMessage();
+	}
+
+	private void UpdateMessage()
+	{
+		Message = string.Join(Environment.NewLine, _messages);
+		OnPropertyChanged(nameof(Message));
+		MessageUpdated?.Invoke();
+	}
+
+	partial void OnIsListeningChanged(bool value)
+	{
+		AddMessage(value ? "Listening" : "Stop listening");
+	}
 }
