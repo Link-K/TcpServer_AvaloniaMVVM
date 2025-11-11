@@ -32,68 +32,96 @@
         </Style>
     </Window.Styles>
 
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="20">
-        <TextBlock Margin="0 20"
-                   FontSize="16"
-                   FontWeight="Black">message:</TextBlock>
+    <SplitView IsPaneOpen="True"
+               DisplayMode="CompactInline"
+               Margin="0 0 12 0"
+               OpenPaneLength="60">
+        <SplitView.Pane>
+            <ScrollViewer x:Name="MenuScrollViewer">
+                
+                <StackPanel x:Name="PaneStackPanel"
+                            Spacing="10"
+                            Margin="10">
+                    <Button x:Name="AddConnect"
+                            Height="40"
+                            Width="40"
+                            Click="AddConnect_Click">
+                        <PathIcon Data="{StaticResource add_square_regular}"/>
+                    </Button>
+                    <Button Height="40"
+                            Width="40">
+                        <PathIcon Data="{StaticResource organization_regular}"/>
+                    </Button>
+                </StackPanel>
+                
+            </ScrollViewer>
+        </SplitView.Pane>
+        
+        <SplitView.Content>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="20">
+                <TextBlock Margin="0 20"
+                           FontSize="16"
+                           FontWeight="Black">message:</TextBlock>
 
-        <ScrollViewer x:Name="MsgScrollViewer"
-                      Width="600"
-                      Height="300"
-                      Margin="5 5"
-                      VerticalScrollBarVisibility="Auto">
-            <TextBox x:Name="MsgBox"
-                     Text="{Binding Message, Mode=OneWay}"
-                     TextWrapping="Wrap"
-                     IsReadOnly="True"
-                     TextChanged="MsgBox_TextChanged">
-            </TextBox>
-        </ScrollViewer>
+                <ScrollViewer x:Name="MsgScrollViewer"
+                              Width="600"
+                              Height="300"
+                              Margin="5 5"
+                              VerticalScrollBarVisibility="Auto">
+                    <TextBox x:Name="MsgBox"
+                             Text="{Binding Message, Mode=OneWay}"
+                             TextWrapping="Wrap"
+                             IsReadOnly="True"
+                             TextChanged="MsgBox_TextChanged">
+                    </TextBox>
+                </ScrollViewer>
 
-        <Grid Margin="0 20" ColumnDefinitions="*,7*,*,3*,*">
+                <Grid Margin="0 20" ColumnDefinitions="*,7*,*,3*,*">
 
-            <TextBlock Text="IP: "
-                       FontWeight="Bold"
-                       Grid.Column="0"
-                       Margin="0,0,5,0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right"></TextBlock>
+                    <TextBlock Text="IP: "
+                               FontWeight="Bold"
+                               Grid.Column="0"
+                               Margin="0,0,5,0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"></TextBlock>
 
-            <TextBox Text="{Binding Ip}"
-                     Grid.Column="1"
-                     Margin="0,0,20,0"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Stretch"/>
+                    <TextBox Text="{Binding Ip}"
+                             Grid.Column="1"
+                             Margin="0,0,20,0"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch"/>
 
-            <TextBlock Text="Port: "
-                       FontWeight="Bold"
-                       Grid.Column="2"
-                       Margin="0,0,5,0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right"></TextBlock>
+                    <TextBlock Text="Port: "
+                               FontWeight="Bold"
+                               Grid.Column="2"
+                               Margin="0,0,5,0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"></TextBlock>
 
-            <TextBox Text="{Binding Port}"
-                     Grid.Column="3"
-                     Margin="0,0,30,0"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Stretch"/>
+                    <TextBox Text="{Binding Port}"
+                             Grid.Column="3"
+                             Margin="0,0,30,0"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch"/>
 
-            <ToggleButton x:Name="ConnectSwitch"
-                          Margin="0"
-                          Grid.Column="4"
-                          IsChecked="{Binding IsListening, Mode=TwoWay}"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Center">
-                <Panel>
-                    <PathIcon Classes="switch-on"
-                              Data="{StaticResource connect_off}" />
-                    <PathIcon Classes="switch-off"
-                              Data="{StaticResource connect_on}"/>
-                </Panel>
-            </ToggleButton>
-        </Grid>
-    </StackPanel>
-
+                    <ToggleButton x:Name="ConnectSwitch"
+                                  Margin="0"
+                                  Grid.Column="4"
+                                  IsChecked="{Binding IsListening, Mode=TwoWay}"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                        <Panel>
+                            <PathIcon Classes="switch-on"
+                                      Data="{StaticResource connect_off}" />
+                            <PathIcon Classes="switch-off"
+                                      Data="{StaticResource connect_on}"/>
+                        </Panel>
+                    </ToggleButton>
+                </Grid>
+            </StackPanel>
+        </SplitView.Content>
+    </SplitView>
+    
 </Window>

@@ -1,5 +1,7 @@
 using System;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using TcpServer.ViewModels;
 
 namespace TcpServer.Views;
@@ -24,5 +26,22 @@ public partial class MainWindow : Window
 	{
 		// 滚动到最后一行
 		MsgScrollViewer.ScrollToEnd();
+	}
+
+	private void AddConnect_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		// 创建新的按钮
+		var newButton = new Button
+		{
+			Height = 40,
+			Width = 40,
+			Content = new PathIcon
+			{
+				Data = (StreamGeometry)this.FindResource("organization_regular")
+			}
+		};
+
+		// 将新按钮添加到 PaneStackPanel
+		PaneStackPanel.Children.Add(newButton);
 	}
 }

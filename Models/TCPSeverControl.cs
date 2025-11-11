@@ -97,7 +97,7 @@ public class TCPServerControl
     {
         try
         {
-            using var stream = client.GetStream();
+            await using var stream = client.GetStream();
             var buffer = new byte[1024];
 
             while (!cancellationToken.IsCancellationRequested && client.Connected)
