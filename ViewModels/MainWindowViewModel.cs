@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
-using Avalonia.Controls;
+using System.Collections.Generic;
+using TcpServer.Models;
+using System.Threading.Tasks;
 
 namespace TcpServer.ViewModels;
 
@@ -18,7 +20,7 @@ public partial class MainWindowViewModel : ObservableObject
 
 	private readonly ObservableCollection<string> _messages = [];
 	private const int MaxMessageCount = 100;
-	public event Action? MessageUpdated;
+	private readonly TCPServerControl _serverControl = new();
 
 	public MainWindowViewModel()
 	{
@@ -26,8 +28,13 @@ public partial class MainWindowViewModel : ObservableObject
 		IsListening = false;
 
 		Message = "Server stop listening";
-		Ip = "192.168.1.1";
-		Port = "8080";
+		Ip = "192.168.1.212";
+		Port = "1212";
+
+		// Subscribe to server events
+		_serverControl.OnMessageReceived += msg => AddMessage(msg);
+		_serverControl.OnClientConnected += msg => AddMessage(msg);
+		_serverControl.OnClientDisconnected += msg => AddMessage(msg);
 	}
 
 	private void AddMessage(string msg)
@@ -45,11 +52,38 @@ public partial class MainWindowViewModel : ObservableObject
 	{
 		Message = string.Join(Environment.NewLine, _messages);
 		OnPropertyChanged(nameof(Message));
-		MessageUpdated?.Invoke();
 	}
 
 	partial void OnIsListeningChanged(bool value)
 	{
-		AddMessage(value ? $"Listening on {Ip}:{Port}" : "Stop listening");
+		if (value)
+		{
+			_ = Task.Run(async () =>
+			{
+				try
+				{
+					await _serverControl.StartAsync(Ip, int.Parse(Port));
+				}
+				catch (Exception ex)
+				{
+					AddMessage($"Failed to start server: {ex.Message}");
+					IsListening = false;
+				}
+			});
+		}
+		else
+		{
+			_ = Task.Run(async () =>
+			{
+				try
+				{
+					await _serverControl.StopAsync();
+				}
+				catch (Exception ex)
+				{
+					AddMessage($"Failed to stop server: {ex.Message}");
+				}
+			});
+		}
 	}
 }
