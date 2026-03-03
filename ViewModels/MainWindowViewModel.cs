@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using TcpServer.Models;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 
 namespace TcpServer.ViewModels;
 
@@ -27,8 +28,8 @@ public partial class MainWindowViewModel : ObservableObject
 		IsListening = false;
 
 		Message = "Server stop listening";
-		Ip = "192.168.1.212";
-		Port = "1212";
+		Ip = "192.168.1.111";
+		Port = "61206";
 
 		// Subscribe to server events
 		_serverControl.OnMessageReceived += msg => AddMessage(msg);
@@ -37,6 +38,17 @@ public partial class MainWindowViewModel : ObservableObject
 	}
 
 	private void AddMessage(string msg)
+	{
+		if (Dispatcher.UIThread.CheckAccess())
+		{
+			AddMessageCore(msg);
+			return;
+		}
+
+		Dispatcher.UIThread.Post(() => AddMessageCore(msg));
+	}
+
+	private void AddMessageCore(string msg)
 	{
 		var content = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {msg}";
 		_messages.Add(content);
@@ -50,7 +62,6 @@ public partial class MainWindowViewModel : ObservableObject
 	private void UpdateMessage()
 	{
 		Message = string.Join(Environment.NewLine, _messages);
-		OnPropertyChanged(nameof(Message));
 	}
 
 	partial void OnIsListeningChanged(bool value)
